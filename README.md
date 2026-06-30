@@ -7,6 +7,7 @@ Fan Zhang, Mingzi Song, Rania Elbadry, Yankai Chen, Shaobo Wang, Yixi Zhou, Xunw
 <p align="center">
   <a href="https://aclanthology.org/2026.acl-demo.71/"><img src="https://img.shields.io/badge/ACL%20Anthology-2026.acl--demo.71-blue" alt="ACL Anthology"></a>
   <a href="https://aclanthology.org/2026.acl-demo.71.pdf"><img src="https://img.shields.io/badge/Paper-PDF-red" alt="Paper PDF"></a>
+  <a href="https://github.com/ZF-Utokyo/FinReporting"><img src="https://img.shields.io/badge/Code-GitHub-black" alt="Code"></a>
   <a href="https://huggingface.co/spaces/BoomQ/FinReporting-Demo"><img src="https://img.shields.io/badge/HuggingFace-Demo-yellow" alt="HuggingFace Demo"></a>
   <a href="https://www.youtube.com/watch?v=f65jdEL31Kk"><img src="https://img.shields.io/badge/Video-YouTube-red" alt="Video"></a>
 </p>
