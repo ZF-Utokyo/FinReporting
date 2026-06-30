@@ -48,7 +48,7 @@ def parse_args() -> argparse.Namespace:
     p.add_argument("--retries", type=int, default=1, help="Retry count for extract/check command failures")
     p.add_argument(
         "--sec-user-agent",
-        default=os.getenv("SEC_USER_AGENT", "FinReporting/1.0 zhangoutstanding@hotmail.com"),
+        default=os.getenv("SEC_USER_AGENT", "FinReporting/1.0 (contact: your-email@example.com)"),
         help="User-Agent for SEC requests (recommended: include email)",
     )
     p.add_argument("--dry-run", action="store_true", help="Print planned commands without executing")

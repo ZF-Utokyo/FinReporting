@@ -156,31 +156,20 @@ OPENAI_API_KEY=
 GEMINI_API_KEY=
 DEEPSEEK_API_KEY=
 ANTHROPIC_API_KEY=
-EDINET_API_KEY=
-SEC_USER_AGENT=
 ```
+
+Optional variables:
+
+- `EDINET_API_KEY`: only needed for JP EDINET API mode. The local ZIP workflow does not require it.
+- `SEC_USER_AGENT`: optional custom SEC request identity. The US scripts provide a default value.
 
 Do not commit real keys.
 
-## Expected Data Layout
+## Data and Safety
 
-This repository does not track raw filings or benchmark outputs. Prepare your own public filings and use local paths:
+This repository does not track raw filings, generated outputs, model traces, or human-checked spreadsheets. Prepare your own public filings and write generated artifacts to local ignored folders such as `outputs/`, `CN/raw_pdfs/`, `US/raw_pdfs/`, or `JP/jp_zips/`. Toy input formats are shown in `examples/`.
 
-```text
-outputs/                         # generated Excel/CSV artifacts, ignored
-CN/raw_pdfs/                     # optional local CN annual-report cache, ignored
-US/raw_pdfs/                     # optional local SEC filing cache, ignored
-JP/jp_zips/                      # optional local EDINET ZIP cache, ignored
-```
-
-Toy input formats are shown in `examples/`.
-
-## Safety Notes
-
-- Keep API keys in environment variables or a local `.env` file.
-- Do not commit raw PDF/HTML/ZIP filing caches.
-- Do not commit generated model outputs, audit traces, or human-checked Excel files unless intentionally releasing them.
-- Review any generated evidence files before publication because they may contain source-document text.
+Before publishing derived outputs, review them for source-document text, audit traces, or manual labels that should not be released.
 
 ## Citation
 

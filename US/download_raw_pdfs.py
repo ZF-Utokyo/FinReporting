@@ -43,7 +43,7 @@ def parse_args() -> argparse.Namespace:
     p.add_argument("--sleep-seconds", type=float, default=0.35, help="Sleep between SEC requests")
     p.add_argument(
         "--sec-user-agent",
-        default=os.getenv("SEC_USER_AGENT", "FinReporting/1.0 (Research; contact: zhangoutstanding@hotmail.com)"),
+        default=os.getenv("SEC_USER_AGENT", "FinReporting/1.0 (contact: your-email@example.com)"),
         help="SEC User-Agent (recommended with email)",
     )
     return p.parse_args()
