@@ -15,8 +15,6 @@ Fan Zhang, Mingzi Song, Rania Elbadry, Yankai Chen, Shaobo Wang, Yixi Zhou, Xunw
   <a href="imgs/fig1.pdf">
     <img src="imgs/overview.png" width="820" alt="FinReporting cross-jurisdiction overview">
   </a>
-  <br>
-  <sub>Click the figure to view the high-resolution PDF.</sub>
 </p>
 
 FinReporting extracts, maps, verifies, and exports localized financial statements from annual disclosures across the United States, Japan, and China. It combines deterministic filing-specific extraction with constrained LLM verification, keeping every repair decision grounded in evidence rather than free-form generation.
@@ -25,8 +23,6 @@ FinReporting extracts, maps, verifies, and exports localized financial statement
   <a href="imgs/sys4.pdf">
     <img src="imgs/system.png" width="760" alt="FinReporting system interface">
   </a>
-  <br>
-  <sub>Interactive demo interface. Click the figure to view the high-resolution PDF.</sub>
 </p>
 
 ## Overview
