@@ -11,12 +11,22 @@ Fan Zhang, Mingzi Song, Rania Elbadry, Yankai Chen, Shaobo Wang, Yixi Zhou, Xunw
   <a href="https://www.youtube.com/watch?v=f65jdEL31Kk"><img src="https://img.shields.io/badge/Video-YouTube-red" alt="Video"></a>
 </p>
 
+<p align="center">
+  <a href="imgs/fig1.pdf">
+    <img src="imgs/overview.png" width="820" alt="FinReporting cross-jurisdiction overview">
+  </a>
+  <br>
+  <sub>Click the figure to view the high-resolution PDF.</sub>
+</p>
+
 FinReporting extracts, maps, verifies, and exports localized financial statements from annual disclosures across the United States, Japan, and China. It combines deterministic filing-specific extraction with constrained LLM verification, keeping every repair decision grounded in evidence rather than free-form generation.
 
 <p align="center">
   <a href="imgs/sys4.pdf">
     <img src="imgs/system.png" width="760" alt="FinReporting system interface">
   </a>
+  <br>
+  <sub>Interactive demo interface. Click the figure to view the high-resolution PDF.</sub>
 </p>
 
 ## Overview
@@ -31,18 +41,6 @@ Financial disclosures vary sharply across jurisdictions. US and JP filings expos
 - Excel export for localized inspection and downstream evaluation.
 
 The public repository is intentionally data-light: it contains source code, schemas, small toy manifests, and evaluation utilities, but not raw annual-report caches, generated model outputs, API keys, or human-checked spreadsheets.
-
-## Figures
-
-- [Cross-jurisdiction challenge and system motivation](imgs/fig1.pdf)
-- [FinReporting extraction and verification pipeline](imgs/pipeline.pdf)
-- [Interactive system interface](imgs/sys4.pdf)
-
-<p align="center">
-  <a href="imgs/fig1.pdf"><img src="imgs/overview.png" width="390" alt="FinReporting overview"></a>
-  &nbsp;
-  <a href="imgs/pipeline.pdf"><img src="imgs/pipeline.png" width="390" alt="FinReporting pipeline"></a>
-</p>
 
 ## Repository Contents
 
