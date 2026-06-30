@@ -1,13 +1,15 @@
-# FinReporting
+<h1 align="center">FinReporting: An Agentic Workflow for Localized Reporting of Cross-Jurisdiction Financial Disclosure</h1>
 
-An Agentic Workflow for Localized Reporting of Cross-Jurisdiction Financial Disclosure
-
+<p align="center">
 Fan Zhang, Mingzi Song, Rania Elbadry, Yankai Chen, Shaobo Wang, Yixi Zhou, Xunwen Zheng, Yueru He, Yuyang Dai, Georgi Nenkov Georgiev, Ayesha Gull, Muhammad Usman Safder, Fan Wu, Liyuan Meng, Fengxian Ji, Junning Zhao, Xueqing Peng, Jimin Huang, Yu Chen, Xue Liu, Preslav Nakov, and Zhuohan Xie
+</p>
 
-[![ACL Anthology](https://img.shields.io/badge/ACL%20Anthology-2026.acl--demo.71-blue)](https://aclanthology.org/2026.acl-demo.71/)
-[![Paper PDF](https://img.shields.io/badge/Paper-PDF-red)](https://aclanthology.org/2026.acl-demo.71.pdf)
-[![Demo](https://img.shields.io/badge/HuggingFace-Demo-yellow)](https://huggingface.co/spaces/BoomQ/FinReporting-Demo)
-[![Video](https://img.shields.io/badge/Video-YouTube-red)](https://www.youtube.com/watch?v=f65jdEL31Kk)
+<p align="center">
+  <a href="https://aclanthology.org/2026.acl-demo.71/"><img src="https://img.shields.io/badge/ACL%20Anthology-2026.acl--demo.71-blue" alt="ACL Anthology"></a>
+  <a href="https://aclanthology.org/2026.acl-demo.71.pdf"><img src="https://img.shields.io/badge/Paper-PDF-red" alt="Paper PDF"></a>
+  <a href="https://huggingface.co/spaces/BoomQ/FinReporting-Demo"><img src="https://img.shields.io/badge/HuggingFace-Demo-yellow" alt="HuggingFace Demo"></a>
+  <a href="https://www.youtube.com/watch?v=f65jdEL31Kk"><img src="https://img.shields.io/badge/Video-YouTube-red" alt="Video"></a>
+</p>
 
 FinReporting extracts, maps, verifies, and exports localized financial statements from annual disclosures across the United States, Japan, and China. It combines deterministic filing-specific extraction with constrained LLM verification, keeping every repair decision grounded in evidence rather than free-form generation.
 
