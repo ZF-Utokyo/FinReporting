@@ -1,0 +1,5 @@
+market,symbol,report_year,source,download_method
+US,AAPL,2024,SEC EDGAR,US/download_raw_pdfs.py
+CN,300750,2024,CNINFO,CN/export_three_statements_excel_cn.py
+JP,7203,2025,EDINET,JP/export_three_statements_excel_jp.py
+

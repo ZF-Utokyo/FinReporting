@@ -1,0 +1,59 @@
+# Secrets and local config
+.env
+.env.*
+!.env.example
+*.key
+*.pem
+credentials.*
+secrets.*
+
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+env/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# OS/editor
+.DS_Store
+.idea/
+.vscode/
+
+# Build/cache artifacts
+build/
+dist/
+*.egg-info/
+.cache/
+downloads/
+
+# Downloaded filing caches
+CN/raw_pdfs/
+US/raw_pdfs/
+JP/jp_zips/
+eval/**/raw_pdfs*/
+eval/**/jp_zips/
+
+# Generated outputs and human review files
+outputs/
+eval/outputs/
+eval/**/outputs*/
+eval/**/reports*/
+*_3statements*.xlsx
+*_raw_extract.xlsx
+check_*.xlsx
+manual_check*.xlsx
+run_log*.csv
+
+# Large document/archive artifacts
+*.sql
+*.pdf
+*.zip
+*.html
+*.htm
+
+# Keep small public schemas and examples
+!schemas/*.xlsx
+!examples/*.csv
