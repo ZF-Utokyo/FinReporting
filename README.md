@@ -1,19 +1,98 @@
 # FinReporting
 
-Code release for an ACL Demo accepted project on automated financial statement extraction and LLM-assisted verification across CN, US, and JP filings.
+An Agentic Workflow for Localized Reporting of Cross-Jurisdiction Financial Disclosure
 
-This repository is intentionally data-light. It includes source code, schemas, evaluation utilities, and toy input examples. It does not include API keys, raw annual-report caches, generated model outputs, or human-checked Excel files.
+Fan Zhang, Mingzi Song, Rania Elbadry, Yankai Chen, Shaobo Wang, Yixi Zhou, Xunwen Zheng, Yueru He, Yuyang Dai, Georgi Nenkov Georgiev, Ayesha Gull, Muhammad Usman Safder, Fan Wu, Liyuan Meng, Fengxian Ji, Junning Zhao, Xueqing Peng, Jimin Huang, Yu Chen, Xue Liu, Preslav Nakov, and Zhuohan Xie
 
-## Contents
+[![ACL Anthology](https://img.shields.io/badge/ACL%20Anthology-2026.acl--demo.71-blue)](https://aclanthology.org/2026.acl-demo.71/)
+[![Paper PDF](https://img.shields.io/badge/Paper-PDF-red)](https://aclanthology.org/2026.acl-demo.71.pdf)
+[![Demo](https://img.shields.io/badge/HuggingFace-Demo-yellow)](https://huggingface.co/spaces/BoomQ/FinReporting-Demo)
+[![Video](https://img.shields.io/badge/Video-YouTube-red)](https://www.youtube.com/watch?v=f65jdEL31Kk)
 
-- `CN/`: CN annual-report PDF extraction and canonical three-statement export.
-- `US/`: SEC/XBRL extraction and canonical three-statement export.
-- `JP/`: EDINET/XBRL extraction and canonical three-statement export.
-- `eval/`: scripts for rule-only, LLM-only, verify, repair, and ablation workflows.
-- `schemas/`: public schema files required by the CN extraction pipeline.
-- `examples/`: small toy manifests showing input formats.
+FinReporting extracts, maps, verifies, and exports localized financial statements from annual disclosures across the United States, Japan, and China. It combines deterministic filing-specific extraction with constrained LLM verification, keeping every repair decision grounded in evidence rather than free-form generation.
 
-## Install
+<p align="center">
+  <a href="imgs/sys4.pdf">
+    <img src="imgs/system.png" width="760" alt="FinReporting system interface">
+  </a>
+</p>
+
+## Overview
+
+Financial disclosures vary sharply across jurisdictions. US and JP filings expose structured XBRL signals, while CN annual reports often require PDF table localization and schema matching. FinReporting handles this heterogeneity through a staged, auditable workflow:
+
+- Filing acquisition from public market-specific sources.
+- Rule-based extraction for structured XBRL and semi-structured PDF statements.
+- Canonical mapping into income statement, balance sheet, and cash flow fields.
+- Anomaly-aware logging for missing, conflicting, or suspicious values.
+- LLM verification and repair under explicit guardrails and evidence requirements.
+- Excel export for localized inspection and downstream evaluation.
+
+The public repository is intentionally data-light: it contains source code, schemas, small toy manifests, and evaluation utilities, but not raw annual-report caches, generated model outputs, API keys, or human-checked spreadsheets.
+
+## Figures
+
+- [Cross-jurisdiction challenge and system motivation](imgs/fig1.pdf)
+- [FinReporting extraction and verification pipeline](imgs/pipeline.pdf)
+- [Interactive system interface](imgs/sys4.pdf)
+
+<p align="center">
+  <a href="imgs/fig1.pdf"><img src="imgs/overview.png" width="390" alt="FinReporting overview"></a>
+  &nbsp;
+  <a href="imgs/pipeline.pdf"><img src="imgs/pipeline.png" width="390" alt="FinReporting pipeline"></a>
+</p>
+
+## Repository Contents
+
+```text
+.
+|-- README.md
+|-- requirements.txt
+|-- run_smoke_test.py                  # No-data environment and artifact check
+|-- run_example.py                     # Unified CN / US / JP example runner
+|-- schemas/
+|   `-- CN_Schemas.xlsx                # Runtime schema for CN PDF matching
+|-- CN/
+|   |-- export_three_statements_excel_cn.py
+|   `-- convert_three_statements_readable.py
+|-- US/
+|   |-- export_three_statements_excel.py
+|   |-- extract_xbrl_cash_flow.py
+|   |-- download_raw_pdfs.py
+|   `-- convert_three_statements_readable.py
+|-- JP/
+|   |-- export_three_statements_excel_jp.py
+|   |-- download_edinet_zip_no_key.py
+|   `-- convert_three_statements_readable.py
+|-- eval/
+|   |-- run_batch_pipeline.py
+|   |-- run_llm_only_cn.py
+|   |-- run_llm_only_us.py
+|   |-- run_llm_only_jp.py
+|   |-- compute_four_way_ablation_metrics.py
+|   `-- table2exp/
+|-- examples/
+|   |-- companies_sample.csv
+|   `-- sample_manifest.csv
+`-- imgs/
+    |-- fig1.pdf / overview.png
+    |-- pipeline.pdf / pipeline.png
+    `-- sys4.pdf / system.png
+```
+
+## Pipeline
+
+| Stage | Component | Purpose | Main output |
+|---|---|---|---|
+| 0 | Filing acquisition | Locate or load annual disclosures from SEC, EDINET, or CNINFO/local PDF | Filing metadata and source file |
+| 1 | Rule extraction | Parse XBRL facts or PDF statement tables | Raw market-specific fields |
+| 2 | Canonical mapping | Normalize fields into three-statement ontology | `*_3statements.xlsx` |
+| 3 | LLM verify/repair | Check rule values with evidence-grounded decisions | Audit CSV / workbook sheet |
+| 4 | Evaluation | Build manual review templates and ablation metrics | Accuracy and workload reports |
+
+## Quick Start
+
+Create an environment and install dependencies:
 
 ```bash
 python -m venv .venv
@@ -21,17 +100,27 @@ source .venv/bin/activate
 pip install -r requirements.txt
 ```
 
-Some PDF table extraction workflows use Camelot. Depending on your OS, Camelot may require system packages such as Ghostscript.
-
-## Start Here
-
-Run a no-data smoke test first:
+Run a no-data smoke test:
 
 ```bash
 python run_smoke_test.py
 ```
 
-Then run one market with your own public filing data:
+The smoke test checks repository files, Python syntax, and the CN schema workbook. If package checks fail, install the dependencies above and rerun.
+
+## Running Examples
+
+The unified runner is the recommended entry point.
+
+US can run directly from public SEC XBRL data:
+
+```bash
+python run_example.py us \
+  --symbol AAPL \
+  --cik 0000320193
+```
+
+CN requires a local annual-report PDF:
 
 ```bash
 python run_example.py cn \
@@ -39,11 +128,7 @@ python run_example.py cn \
   --pdf /path/to/annual_report.pdf
 ```
 
-```bash
-python run_example.py us \
-  --symbol AAPL \
-  --cik 0000320193
-```
+JP can run from a local EDINET type-1 ZIP:
 
 ```bash
 python run_example.py jp \
@@ -52,55 +137,87 @@ python run_example.py jp \
   --xbrl-zip /path/to/edinet_type1.zip
 ```
 
+Outputs are written to `outputs/` by default. Generated outputs are ignored by git.
+
 ## Environment Variables
 
-Copy `.env.example` to `.env` for local use, then fill in only the keys you need. Do not commit `.env`.
+Rule-only extraction does not require LLM keys. LLM verification and repair use provider API keys from environment variables or explicit CLI arguments.
 
 ```bash
 cp .env.example .env
 ```
 
-The code can run rule-only extraction without LLM provider keys. LLM verification and repair require a provider API key.
+Supported variables:
 
-## Quick Examples
-
-The unified runner above wraps the underlying scripts. You can also call each script directly.
-
-CN from a local annual-report PDF:
-
-```bash
-python CN/export_three_statements_excel_cn.py \
-  --symbol 300750 \
-  --pdf /path/to/annual_report.pdf \
-  --schema-file schemas/CN_Schemas.xlsx \
-  --out outputs/cn_300750_3statements.xlsx
+```text
+OPENAI_API_KEY=
+GEMINI_API_KEY=
+DEEPSEEK_API_KEY=
+ANTHROPIC_API_KEY=
+EDINET_API_KEY=
+SEC_USER_AGENT=
 ```
 
-US from SEC XBRL:
+Do not commit real keys.
 
-```bash
-python US/export_three_statements_excel.py \
-  --symbol AAPL \
-  --cik 0000320193 \
-  --out outputs/us_aapl_3statements.xlsx
+## Expected Data Layout
+
+This repository does not track raw filings or benchmark outputs. Prepare your own public filings and use local paths:
+
+```text
+outputs/                         # generated Excel/CSV artifacts, ignored
+CN/raw_pdfs/                     # optional local CN annual-report cache, ignored
+US/raw_pdfs/                     # optional local SEC filing cache, ignored
+JP/jp_zips/                      # optional local EDINET ZIP cache, ignored
 ```
 
-JP from a local EDINET ZIP:
+Toy input formats are shown in `examples/`.
 
-```bash
-python JP/export_three_statements_excel_jp.py \
-  --xbrl-zip /path/to/edinet_type1.zip \
-  --symbol 7203 \
-  --company-name "Toyota" \
-  --out outputs/jp_7203_3statements.xlsx
+## Safety Notes
+
+- Keep API keys in environment variables or a local `.env` file.
+- Do not commit raw PDF/HTML/ZIP filing caches.
+- Do not commit generated model outputs, audit traces, or human-checked Excel files unless intentionally releasing them.
+- Review any generated evidence files before publication because they may contain source-document text.
+
+## Citation
+
+If you use FinReporting, please cite the ACL 2026 System Demonstrations paper:
+
+```bibtex
+@inproceedings{zhang-etal-2026-finreporting,
+    title = "{F}in{R}eporting: An Agentic Workflow for Localized Reporting of Cross-Jurisdiction Financial Disclosure",
+    author = "Zhang, Fan  and
+      Song, Mingzi  and
+      Elbadry, Rania  and
+      Chen, Yankai  and
+      Wang, Shaobo  and
+      Zhou, Yixi  and
+      Zheng, Xunwen  and
+      He, Yueru  and
+      Dai, Yuyang  and
+      Georgiev, Georgi Nenkov  and
+      Gull, Ayesha  and
+      Safder, Muhammad Usman  and
+      Wu, Fan  and
+      Meng, Liyuan  and
+      Ji, Fengxian  and
+      Zhao, Junning  and
+      Peng, Xueqing  and
+      Huang, Jimin  and
+      Chen, YU  and
+      Liu, Xue  and
+      Nakov, Preslav  and
+      Xie, Zhuohan",
+    editor = "Durrett, Greg  and
+      Jian, Ping",
+    booktitle = "Proceedings of the 64th Annual Meeting of the {A}ssociation for {C}omputational {L}inguistics (Volume 3: System Demonstrations)",
+    month = jul,
+    year = "2026",
+    address = "San Diego, California, United States",
+    publisher = "Association for Computational Linguistics",
+    url = "https://aclanthology.org/2026.acl-demo.71/",
+    pages = "728--735",
+    ISBN = "979-8-89176-392-0"
+}
 ```
-
-## What Is Not Included
-
-- No API keys or private environment files.
-- No raw PDF/HTML/ZIP filing caches.
-- No generated Excel outputs.
-- No human-checked `check_*.xlsx` or `manual_check_*.xlsx` files.
-- No local virtual environment, build artifacts, or UI demo files.
-
-Use the download scripts and examples to recreate the data locally from public sources.

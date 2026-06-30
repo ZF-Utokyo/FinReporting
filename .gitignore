@@ -53,6 +53,9 @@ run_log*.csv
 *.zip
 *.html
 *.htm
+!imgs/
+!imgs/*.pdf
+!imgs/*.png
 
 # Keep small public schemas and examples
 !schemas/*.xlsx
